@@ -2,6 +2,7 @@ import Banner from "@/components/home/banner";
 import Header from "@/components/home/header";
 import HowItWorks from "@/components/home/howitworks";
 import Pricing from "@/components/home/pricing";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Dot } from "lucide-react";
 
 const Divider = () => (
@@ -36,6 +37,14 @@ export default function Home() {
       </div>
 
       <Header />
+      <div>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </div>
       <Banner />
       <Divider />
       <HowItWorks />
