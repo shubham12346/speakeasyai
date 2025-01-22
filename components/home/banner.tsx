@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
-import BgGradient from "./bgGradient";
+import { JSX } from "react";
 
-const Banner = () => {
+const Banner: () => JSX.Element = () => {
   return (
     <section
       className="lg:max-w-6xl mx-auto flex flex-col

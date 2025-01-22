@@ -1,9 +1,7 @@
 import Banner from "@/components/home/banner";
 import BgGradient from "@/components/home/bgGradient";
-import Header from "@/components/home/header";
 import HowItWorks from "@/components/home/howitworks";
 import Pricing from "@/components/home/pricing";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Dot } from "lucide-react";
 
 const Divider = () => (
@@ -21,9 +19,10 @@ export default function Home() {
       className=" mx-auto w-full inset-0 h-full
      bg-[radical-gradient(#e5e7eb_1px, transparent_1px)][background-size:16px_16px]"
     >
-      <BgGradient />
+      <BgGradient>
+        <Banner />
+      </BgGradient>
 
-      <Banner />
       <Divider />
       <HowItWorks />
       <Divider />

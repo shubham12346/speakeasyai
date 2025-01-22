@@ -1,7 +1,7 @@
 import { BrainIcon, MoveRight } from "lucide-react";
-import BgGradient from "./bgGradient";
+import { JSX } from "react";
 
-const HowItWorks = ({}) => {
+const HowItWorks: () => JSX.Element = () => {
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="relative isolate">

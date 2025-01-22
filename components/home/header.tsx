@@ -1,12 +1,13 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-const NavLink = ({
+import { JSX } from "react";
+const NavLink: ({
   href,
   children,
 }: {
   href: string;
   children: React.ReactNode;
-}) => {
+}) => JSX.Element = ({ href, children }) => {
   return (
     <Link
       href={href}

@@ -1,7 +1,9 @@
+import { JSX } from "react";
+
 type props = {
-  children: React.ReactElement | any;
+  children: JSX.Element;
 };
-const BgGradient = ({ children }: props) => {
+const BgGradient: ({ children }: props) => JSX.Element = ({ children }) => {
   return (
     <div className="relative isolate">
       <div
