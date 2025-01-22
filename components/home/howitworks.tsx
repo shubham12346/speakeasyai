@@ -1,4 +1,5 @@
 import { BrainIcon, MoveRight } from "lucide-react";
+import BgGradient from "./bgGradient";
 
 const HowItWorks = ({}) => {
   return (
@@ -18,7 +19,6 @@ const HowItWorks = ({}) => {
           />
         </div>
       </div>
-
       <div className="flex items-center justify-center w-full pb-6 ">
         <h2 className="font-bold text-xl uppercase mb-8 text-purple-600">
           HOW IT WORKS
@@ -29,7 +29,7 @@ const HowItWorks = ({}) => {
         Easily repurpose your content into SEO focused blog posts
       </h3>
 
-      <div className="flex items-center justify-center gap-4 lg:gap-24">
+      <div className="flex  items-center justify-center gap-4 lg:gap-24">
         <div className="flex flex-col gap-4">
           <p className="text-7xl text-center">🎥</p>
           <p className="text-center font-medium">Upload a video</p>

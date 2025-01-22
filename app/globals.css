@@ -74,7 +74,7 @@ body {
     @apply text-2xl lg:text-4xl font-medium;
   }
   a {
-    @apply text-2xl lg:text-4xl font-medium;
+    @apply text-sm lg:text-4xl font-medium;
   }
   button {
     @apply hover:cursor-pointer bg-purple-600 hover:bg-purple-700;

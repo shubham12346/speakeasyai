@@ -1,3 +1,4 @@
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 const NavLink = ({
   href,
@@ -21,7 +22,7 @@ const Header = () => {
     <nav
       className="container flex
      items-center justify-between
-      px-8 py-4 mx-auto "
+      px-8 py-4 mx-auto  "
     >
       <div className="flex lg:flex-1">
         <Link
@@ -33,15 +34,24 @@ const Header = () => {
       </div>
       <div className="flex lg:justify-center gap-2 lg:gap-12 lg:items-center">
         <NavLink href="/#pricing">Pricing</NavLink>
-        <NavLink href="/#posts">Your Posts</NavLink>
+        <SignedIn>
+          <NavLink href="/#posts">Your Posts</NavLink>
+        </SignedIn>
       </div>
 
       <div className="flex lg:justify-end lg:flex-1">
-        <div className="flex gap-2 items-center">
-          <NavLink href="/dashboard">Upload a Video</NavLink>
-          {/**profile will stay here  */}
-        </div>
-        <NavLink href="/sign-in">Sign In</NavLink>
+        <SignedIn>
+          <div className="flex gap-2 items-center">
+            <NavLink href="/dashboard">Upload a Video</NavLink>
+            <UserButton />
+          </div>
+        </SignedIn>
+
+        <SignedOut>
+          <div className="px-10  text-3xl text-gray-600 bg-white">
+            <NavLink href="/sign-in">Sign In</NavLink>
+          </div>
+        </SignedOut>
       </div>
     </nav>
   );
