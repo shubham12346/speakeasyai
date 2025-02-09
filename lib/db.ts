@@ -1,8 +1,19 @@
-import { neon } from "@neondatabase/serverless";
+// lib/db.js
+import { Client } from "pg";
 
-export default async function getDbConnection() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("Neon Database url is not defined ");
+let client: any;
+
+const getDbClient = () => {
+  if (client) {
+    return client; // Return existing connection
   }
-  return neon(process.env.DATABASE_URL!);
-}
+
+  client = new Client({
+    connectionString: process.env.DATABASE_URL,
+  });
+
+  client.connect(); // Establish a new connection if it's not already connected
+  return client;
+};
+
+export { getDbClient };

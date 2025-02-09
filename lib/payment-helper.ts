@@ -1,8 +1,7 @@
 import getDbConnection from "./db";
 
-export async function handleCheckoutSessionCompleted({ session, rajorPay }) {
+export async function handleCheckoutSessionCompleted({}) {
   const customerId = session.customer as string;
-  const customer = await rajorPay.customers.reterive(customerId);
 
   if ("email" in customer) {
     const sql = await getDbConnection();
@@ -13,11 +12,7 @@ export async function handleCheckoutSessionCompleted({ session, rajorPay }) {
   }
 }
 
-async function createOrUpdateUser(
-  sql: any,
-  customer: rajorpay.customer,
-  customerId: String
-) {
+async function createOrUpdateUser(sql: any, customer: any, customerId: String) {
   try {
     const user = await sql`SELECT * FROM users WHERE email =${customer.email}`;
     if (user.length === 0) {
