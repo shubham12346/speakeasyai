@@ -3,11 +3,11 @@ import Banner from "@/components/home/banner";
 import BgGradient from "@/components/home/bgGradient";
 import HowItWorks from "@/components/home/howitworks";
 import Pricing from "@/components/home/pricing";
-import { handleSignIn } from "@/lib/auth";
 import { useUser } from "@clerk/nextjs";
 import { Dot } from "lucide-react";
 import { useEffect } from "react";
-// import { handleSignIn } from "@/lib/auth";
+import Dashboard from "./(logged-in)/dashboard/page";
+
 const Divider = () => (
   <div className="flex items-center justify-center">
     <Dot className="text-purple-400"></Dot>
@@ -19,9 +19,8 @@ const Divider = () => (
 
 export default function Home() {
   const { user, isLoaded } = useUser();
-  // Call handleSignIn when the user is loaded
 
-  const handleSignIn = (user) => {
+  const handleSignIn = (user: any) => {
     const { id: userId, primaryEmailAddress, firstName, lastName } = user;
     let email = primaryEmailAddress.emailAddress;
 

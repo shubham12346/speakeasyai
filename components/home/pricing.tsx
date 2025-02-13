@@ -6,7 +6,7 @@ import BgGradient from "./bgGradient";
 import { JSX } from "react";
 import { useSession } from "@clerk/clerk-react";
 import Script from "next/script";
-import Razorpay from "razorpay";
+import { useUser } from "@clerk/nextjs";
 
 declare global {
   interface Window {
@@ -16,6 +16,7 @@ declare global {
 
 const Pricing: () => JSX.Element = () => {
   const { session } = useSession();
+  const userDetails = useUser();
 
   if (!session) {
     return <div>Loading...</div>;
@@ -93,6 +94,9 @@ const Pricing: () => JSX.Element = () => {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
+            userId: userDetails.user?.id,
+            amount: Number(plan.price) * 100,
+            currency: "INR",
           }),
         })
           .then((res) => res.json())

@@ -1,10 +1,20 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import * as fs from "fs";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function POST(req: any) {
   const body = await req.json();
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    userId,
+    amount,
+    currency,
+  } = body;
 
   const bodyWithOrderIdAndPaymentId =
     razorpay_order_id + "|" + razorpay_payment_id;
@@ -25,12 +35,42 @@ export async function POST(req: any) {
         order.payment_id = razorpay_payment_id;
         console.log("orders", orders);
       }
-      return NextResponse.json({ details: "success" }, { status: 200 });
-    } else {
-      NextResponse.json({ message: "failed " }, { status: 500 });
-    }
+      // Check if user exists
+      let user = await prisma.user.findUnique({ where: { id: userId } });
 
-    return NextResponse.json({ hello: "hello" });
+      if (!user) {
+        user = await prisma.user.create({
+          data: { id: userId, email: "", name: "" },
+        });
+      }
+
+      // Store payment details
+      await prisma.payment.create({
+        data: {
+          userId: userId,
+          amount: amount,
+          currency: currency,
+          status: "success",
+        },
+      });
+      // Create subscription
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + 30); // Assuming a 30-day plan
+
+      await prisma.subscription.create({
+        data: {
+          userId: userId,
+          status: "active",
+          startDate: startDate,
+          endDate: endDate,
+        },
+      });
+
+      return NextResponse.json({ success: true }, { status: 200 });
+    } else {
+      return NextResponse.json({ error: "Invalid token" }, { status: 500 });
+    }
   } catch (error: any) {
     console.error("Error:", error.response?.data || error.message);
     return NextResponse.json(
