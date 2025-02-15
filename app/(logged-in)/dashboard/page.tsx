@@ -6,6 +6,7 @@ import React from "react";
 const Dashboard = () => {
   let planType = "Basic";
   let hasBasicPlan = true;
+  let hasUserCancel = true;
   return (
     <BgGradient>
       <div className="mx-auto max-w-7xl px-6 sm:px-8 sm:py-8 lg:px-8">
@@ -32,7 +33,7 @@ const Dashboard = () => {
             as part of the
             <span className="font-bold capitalize"> {planType}</span> Plan.
           </p>
-          {hasBasicPlan ? <UpgradeYourPlan /> : "Upload"}
+          {hasUserCancel ? <UpgradeYourPlan /> : "Upload"}
         </div>
       </div>
     </BgGradient>
