@@ -1,12 +1,15 @@
 import UpgradeYourPlan from "@/app/upload/upgrade-your-plan";
+import UploadForm from "@/app/upload/UploadForm";
 import BgGradient from "@/components/home/bgGradient";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
+import { z } from "zod";
 
 const Dashboard = () => {
   let planType = "Basic";
   let hasBasicPlan = true;
-  let hasUserCancel = true;
+  let hasUserCancel = false;
+
   return (
     <BgGradient>
       <div className="mx-auto max-w-7xl px-6 sm:px-8 sm:py-8 lg:px-8">
@@ -33,7 +36,13 @@ const Dashboard = () => {
             as part of the
             <span className="font-bold capitalize"> {planType}</span> Plan.
           </p>
-          {hasUserCancel ? <UpgradeYourPlan /> : "Upload"}
+          {hasUserCancel ? (
+            <UpgradeYourPlan />
+          ) : (
+            <BgGradient>
+              <UploadForm />
+            </BgGradient>
+          )}
         </div>
       </div>
     </BgGradient>

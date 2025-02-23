@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/home/header";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${fontSans.className} antialiased`}>
           <Header />
+          <Toaster />
           {children}
         </body>
       </html>
