@@ -3,7 +3,7 @@ import { Client } from "pg";
 
 let client: any;
 
-const getDbClient = () => {
+const getDbConnection = () => {
   if (client) {
     return client; // Return existing connection
   }
@@ -16,4 +16,4 @@ const getDbClient = () => {
   return client;
 };
 
-export { getDbClient };
+export { getDbConnection };

@@ -13,38 +13,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id           String   @id @default(uuid()) // Clerk user ID
-  email        String   @unique
-  name         String?
-  createdAt    DateTime @default(now())
-  subscription Subscription?
-  payments     Payment[]
+  id         String    @id @default(uuid())
+  user_id    String    @unique // Clerk ID
+  fullName   String
+  email      String    @unique
+  created_at DateTime  @default(now())
+  customer_id String?  // Razorpay customer ID
+  price_id   String?
+  status     UserStatus @default(ACTIVE)
+  
+  // Relations
+  posts      Post[]
+  payments   Payment[]
+
+  @@map("users")
 }
 
-model Subscription {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
-  status      String   // "active", "expired", "canceled"
-  startDate   DateTime
-  endDate     DateTime
-  createdAt   DateTime @default(now())
+model Post {
+  id         String   @id @default(uuid())
+  user_id    String
+  title      String
+  content    String
+  created_at DateTime @default(now())
+  
+  // Relations
+  user       User     @relation(fields: [user_id], references: [user_id])
+
+  @@map("posts")
 }
 
 model Payment {
-  id          String   @id @default(uuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  amount      Float
-  currency    String  // "USD", "INR", etc.
-  status      String  // "pending", "success", "failed"
-  paymentDate DateTime @default(now())
+  id                  String    @id @default(uuid())
+  amount              Float
+  status              PaymentStatus
+  razorpay_payment_id String?   @unique
+  created_at          DateTime  @default(now())
+  refunded_at         DateTime?
+  user_email          String
+  price_id            String
+  
+  // Relations  
+  user                User      @relation(fields: [user_email], references: [email])
+
+  @@map("payments")
 }
 
-model Plan {
-  id          String  @id @default(uuid())
-  name        String  @unique
-  price       Float
-  duration    Int     // in days
-  createdAt   DateTime @default(now())
+enum UserStatus {
+  ACTIVE
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }

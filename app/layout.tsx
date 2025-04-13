@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/home/header";
 import { Toaster } from "@/components/ui/toaster";
+import UserSync from "@/components/UserSync";
 
 const fontSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
     <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
       <html lang="en">
         <body className={`${fontSans.className} antialiased`}>
+          <UserSync />
           <Header />
           <Toaster />
           {children}

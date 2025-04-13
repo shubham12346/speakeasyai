@@ -1,10 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { use } from "react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/utils/uploadthing";
+import {
+  generateBlogPostAction,
+  transcribeUploadedFile,
+} from "@/actions/upload-actions";
 
 const schema = z.object({
   file: z
@@ -60,7 +64,39 @@ export default function UploadForm() {
 
     if (file) {
       const res = await startUpload([file]);
-      console.log("res", { res });
+      console.log("res", res);
+      if (!res) {
+        toast.toast({
+          title: "Something went wrong",
+          description: `Please use a different file`,
+        });
+      }
+      toast.toast({
+        title: "🎙️ Transcription is in progress...",
+        description: `Hang tight! Our digital wizards are sprinkling magic dust on your file!`,
+      });
+      const result = await transcribeUploadedFile(res);
+      console.log("result", result);
+
+      if (!result?.success) {
+        toast.toast({
+          title: result?.message ?? "Error",
+          description: `Transcription  Failed`,
+          variant: "destructive",
+        });
+        return;
+      }
+      if (result?.data.transcription.text) {
+        toast.toast({
+          title: "🤖 Generating AI blog post ...",
+          description: `Please wait while we generate your blog post`,
+        });
+      }
+
+      await generateBlogPostAction({
+        transcriptions: result?.data.transcription.text,
+        userId: result?.data.userId,
+      });
     }
   };
 
