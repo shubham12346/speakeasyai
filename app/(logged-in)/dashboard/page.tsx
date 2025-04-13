@@ -6,6 +6,8 @@ import BgGradient from "@/components/home/bgGradient";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const Dashboard = () => {
   let planType = "Basic";
   let hasUserCancel = false;

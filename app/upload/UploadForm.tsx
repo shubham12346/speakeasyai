@@ -10,20 +10,6 @@ import {
   transcribeUploadedFile,
 } from "@/actions/upload-actions";
 
-const schema = z.object({
-  file: z
-    .instanceof(File, { message: "Invalid file" })
-    .refine(
-      (file) => file.size < 20 * 1024 * 1024,
-      "file size should be less than 20MB"
-    )
-    .refine(
-      (file) =>
-        file.type.startsWith("audio/") || file.type.startsWith("video/"),
-      "File must be audio or video"
-    ),
-});
-
 export default function UploadForm() {
   const toast = useToast();
   const { startUpload } = useUploadThing("videoOrAudioUploader", {
@@ -46,6 +32,21 @@ export default function UploadForm() {
     const formData = new FormData(event.currentTarget);
     const file = formData.get("file") as File;
     console.log("file", file);
+
+    const schema = z.object({
+      file: z
+        .instanceof(File, { message: "Invalid file" })
+        .refine(
+          (file) => file.size < 20 * 1024 * 1024,
+          "file size should be less than 20MB"
+        )
+        .refine(
+          (file) =>
+            file.type.startsWith("audio/") || file.type.startsWith("video/"),
+          "File must be audio or video"
+        ),
+    });
+
     const validateField: any = schema.safeParse({ file });
     if (!validateField.success) {
       console.log(
