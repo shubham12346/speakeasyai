@@ -3,11 +3,9 @@ import UploadForm from "@/app/upload/UploadForm";
 import BgGradient from "@/components/home/bgGradient";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
-import { z } from "zod";
 
 const Dashboard = () => {
   let planType = "Basic";
-  let hasBasicPlan = true;
   let hasUserCancel = false;
 
   return (
@@ -21,10 +19,9 @@ const Dashboard = () => {
             {planType}
           </Badge>
           <h2 className="capitalize text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Start creating amazingcontent{" "}
+            Start creating amazingcontent
           </h2>
           <p className="mt-2  text-lg leading-8 text-gray-600 max-w-2xl text-center ">
-            {" "}
             Upload you audio or video file and let our AI do the magic !
           </p>
           <p className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl text-center ">

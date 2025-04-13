@@ -21,7 +21,7 @@ const NavLink: ({
 };
 
 const Header = () => {
-  const { isSubscribed, plan, subscriptionStatus } = useSubscription();
+  const { isSubscribed } = useSubscription();
 
   return (
     <nav

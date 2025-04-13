@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import BgGradient from "./bgGradient";
 import { JSX, useState } from "react";
 import { useSession } from "@clerk/clerk-react";
-import Script from "next/script";
 import { useUser } from "@clerk/nextjs";
 import { PRICING_PLANS } from "@/lib/pricingPlan";
 import { toast } from "@/hooks/use-toast";
@@ -36,7 +35,6 @@ const Pricing: () => JSX.Element = () => {
     subscriptionStatus
   );
   const user = session.user;
-  const userEmail = user.emailAddresses[0].emailAddress;
 
   const handlePaymentClick = async (args: {
     name: string;

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { use } from "react";
+import React from "react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadThing } from "@/utils/uploadthing";

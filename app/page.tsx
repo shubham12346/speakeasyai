@@ -6,7 +6,6 @@ import Pricing from "@/components/home/pricing";
 import { useUser } from "@clerk/nextjs";
 import { Dot } from "lucide-react";
 import { useEffect } from "react";
-import Dashboard from "./(logged-in)/dashboard/page";
 
 const Divider = () => (
   <div className="flex items-center justify-center">
@@ -18,13 +17,12 @@ const Divider = () => (
 );
 
 export default function Home() {
-  const { user, isLoaded } = useUser();
+  const { user } = useUser();
 
   const handleSignIn = (user: any) => {
-    const { id: userId, primaryEmailAddress, firstName, lastName } = user;
+    const { id: userId, primaryEmailAddress } = user;
     let email = primaryEmailAddress.emailAddress;
 
-    console.log("userId:", userId, "email:", email, "firstName:", firstName);
     fetch("api/check-create-user", {
       method: "POST",
       headers: {
