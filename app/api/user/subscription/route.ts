@@ -33,7 +33,7 @@ export async function GET(req: Request) {
     // Get the most recent completed payment for additional details
     const latestPayment = await prisma.payment.findFirst({
       where: {
-        user_email: user.email,
+        user_email: user?.email,
         status: "COMPLETED",
       },
       orderBy: {

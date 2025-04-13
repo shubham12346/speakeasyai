@@ -1,3 +1,5 @@
+"use client";
+import { useSubscription } from "@/hooks/useSubcription";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { JSX } from "react";
@@ -19,6 +21,8 @@ const NavLink: ({
 };
 
 const Header = () => {
+  const { isSubscribed, plan, subscriptionStatus } = useSubscription();
+
   return (
     <nav
       className="container flex
@@ -43,7 +47,11 @@ const Header = () => {
       <div className="flex lg:justify-end lg:flex-1">
         <SignedIn>
           <div className="flex gap-2 items-center">
-            <NavLink href="/dashboard">Upload a Video</NavLink>
+            {isSubscribed ? (
+              <NavLink href="/dashboard">Upload a Video</NavLink>
+            ) : (
+              <NavLink href="#Pricing">Upload a Video</NavLink>
+            )}
             <UserButton />
           </div>
         </SignedIn>

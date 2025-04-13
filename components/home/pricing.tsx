@@ -9,6 +9,7 @@ import Script from "next/script";
 import { useUser } from "@clerk/nextjs";
 import { PRICING_PLANS } from "@/lib/pricingPlan";
 import { toast } from "@/hooks/use-toast";
+import { useSubscription } from "@/hooks/useSubcription";
 
 declare global {
   interface Window {
@@ -21,24 +22,38 @@ const Pricing: () => JSX.Element = () => {
   const userDetails = useUser();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<string | null>(null);
+  const { isSubscribed, plan, subscriptionStatus } = useSubscription();
 
   if (!session) {
     return <div>Loading...</div>;
   }
+  console.log(
+    "isSubscribed",
+    isSubscribed,
+    "plan",
+    plan,
+    "subcriptions Status",
+    subscriptionStatus
+  );
   const user = session.user;
   const userEmail = user.emailAddresses[0].emailAddress;
 
-  const handlePaymentClick = async (plan: {
+  const handlePaymentClick = async (args: {
     name: string;
     price: number;
     id: string;
   }) => {
+    if (args.id === plan) {
+      toast({ title: "Subcription is Active" });
+
+      return;
+    }
     if (!userDetails.isLoaded || !user) {
       setError("Please sign in to continue");
       return;
     }
 
-    setIsLoading(plan.id);
+    setIsLoading(args.id);
     setError(null);
     // Create order by calling the server endpoint
     const response = await fetch("api/payment/create-order", {
@@ -47,7 +62,7 @@ const Pricing: () => JSX.Element = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        planId: plan.id,
+        planId: args.id,
       }),
     });
 
@@ -88,7 +103,7 @@ const Pricing: () => JSX.Element = () => {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
-            planId: plan.id,
+            planId: args.id,
           }),
         })
           .then((res) => res.json())
@@ -187,16 +202,30 @@ const Pricing: () => JSX.Element = () => {
                 <div className="space-y-2">
                   <Button
                     variant={"default"}
-                    className={cn(
-                      "border-2 rounded-full flex gap-2 bg-black text-gray-100 aspect-square  ",
-                      id === "pro" && "border-amber-300 px-4"
-                    )}
+                    className={`border-2 rounded-full flex gap-2  text-gray-100 aspect-square  ${
+                      plan === id
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                        : "bg-black"
+                    }`}
                     onClick={() => handlePaymentClick({ name, price, id })}
                   >
-                    <div className=" flex gap-1 items-center text-sm lg:text-2xl ">
-                      Get SpeakEasy
-                    </div>
-                    <ArrowRight size={18} />
+                    {isSubscribed ? (
+                      <>
+                        <div className=" flex gap-1 items-center text-sm lg:text-2xl  ">
+                          {plan === id
+                            ? "Active"
+                            : plan === "basic-plan"
+                            ? "Upgrade"
+                            : "Get SpeakEasy"}
+                        </div>
+                      </>
+                    ) : (
+                      <div className=" flex gap-1 items-center text-sm lg:text-2xl ">
+                        Get SpeakEasy
+                      </div>
+                    )}
+
+                    {plan === id ? <></> : <ArrowRight size={18} />}
                   </Button>
                 </div>
               </div>
