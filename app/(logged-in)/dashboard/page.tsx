@@ -1,3 +1,5 @@
+"use client";
+
 import UpgradeYourPlan from "@/app/upload/upgrade-your-plan";
 import UploadForm from "@/app/upload/UploadForm";
 import BgGradient from "@/components/home/bgGradient";
