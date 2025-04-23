@@ -30,14 +30,17 @@ model User {
 }
 
 model Post {
-  id         String   @id @default(uuid())
-  user_id    String
-  title      String
-  content    String
-  created_at DateTime @default(now())
+ id           String   @id @default(uuid())
+  user_id      String
+  title        String
+  content      String   @db.Text  // Using @db.Text for longer content
+  summary      String?  // Optional summary field
+  tags         String[] // Array of tags
+  videoUrl     String?  // URL to the original video (optional)
+  created_at   DateTime @default(now())
   
   // Relations
-  user       User     @relation(fields: [user_id], references: [user_id])
+  user         User     @relation(fields: [user_id], references: [user_id])
 
   @@map("posts")
 }
